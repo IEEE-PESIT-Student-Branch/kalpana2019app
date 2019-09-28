@@ -24,6 +24,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(canvasColor: Color(0xFF4138B2)),
         child: BottomNavigationBar(
+          selectedItemColor: Colors.white,
           currentIndex: _selectedPage,
           onTap: (int index) {
             setState(() {
@@ -49,5 +50,3 @@ class _HomeNavPageState extends State<HomeNavPage> {
     );
   }
 }
-
-

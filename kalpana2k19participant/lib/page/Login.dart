@@ -46,18 +46,18 @@ class _LoginPageState extends State<LoginPage> {
                       'Kalpana',
                       style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'kau',
-                        fontSize: 68,
+                        fontFamily: 'bas',
+                        fontSize: 110,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(170, 75, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(195, 92, 0, 0),
                       child: Text(
                         '2K19',
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'kau',
-                          fontSize: 20,
+                          fontFamily: 'bas',
+                          fontSize: 25,
                         ),
                       ),
                     ),

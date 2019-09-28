@@ -30,7 +30,7 @@ class ScheduleTile extends StatelessWidget {
         child: Container(
           alignment: AlignmentDirectional(-0.8, 0.0),
           child: Text(
-            event.Title,
+            event.title,
             style: sub,
           ),
         ),

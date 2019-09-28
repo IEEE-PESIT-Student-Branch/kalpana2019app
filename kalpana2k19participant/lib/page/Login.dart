@@ -14,11 +14,12 @@ class _LoginPageState extends State<LoginPage> {
   final _teamID = TextEditingController();
   final DBref = FirebaseDatabase.instance.reference().child("/teams");
 
+// void initState(){
+//   FirebaseDatabase.instance.reference().keepSynced(false);
+//   FirebaseDatabase.instance.setPersistenceEnabled(false);
+//  }
+
   void login() {
-    //Check if Team-ID is valid
-    // DBref.child("1").set({
-    //   'id':'This is sample data'
-    // });
     Database.appLogin(context, _teamID.text);
   }
 
@@ -32,45 +33,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       child: Scaffold(
-<<<<<<< HEAD
-        body: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                Color(0xFF540187),
-                Color(0xFF020057),
-              ])),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 110, 0, 0),
-                child: Stack(
-                  children: <Widget>[
-                    Text(
-                      'Kalpana',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'bas',
-                        fontSize: 110,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(195, 92, 0, 0),
-                      child: Text(
-                        '2K19',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'bas',
-                          fontSize: 25,
-                        ),
-                      ),
-                    ),
-                  ],
-=======
         backgroundColor: Colors.transparent,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -85,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
->>>>>>> ec281573239bdaca412e6f15de559367443ed486
                 ),
                 child: TextField(
                   controller: _teamID,

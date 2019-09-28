@@ -14,8 +14,8 @@ class Kalpana2k19 extends StatelessWidget {
       title: 'Kalpana Participant App',
       initialRoute:'/',
       routes: {
-        '/'     : (BuildContext context) => DoubtPage(),
-        '/home' : (context) => HomeNavPage(),
+        '/'     : (BuildContext context) => LoginPage(),
+        '/home' : (BuildContext context) => HomeNavPage(),
         
       },
     );

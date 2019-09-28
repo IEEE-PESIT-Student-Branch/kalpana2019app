@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:kalpana2k19participant/page/Home.dart';
 
 class Database{
-  
-  
-  DatabaseReference dbHelpRef = FirebaseDatabase.instance.reference().child("/help");
-
+  static final DatabaseReference dbTeamRef = FirebaseDatabase.instance.reference();
 
   static void appLogin(BuildContext context, String teamid){
-    DatabaseReference dbTeamRef = FirebaseDatabase.instance.reference().child("/team");
-      dbTeamRef.once().then((DataSnapshot snap){
+    
+      dbTeamRef.child("/team").once().then((DataSnapshot snap){
         print(snap.value);
         var res = Map<String,dynamic>.from(snap.value);
         res.forEach((key, value){
@@ -26,4 +23,13 @@ class Database{
         });
       });
   }
+
+  static Future<void> postdoubt(BuildContext context, String domian, String message) async{
+    await dbTeamRef.child("/help").push().set({
+      'd': '$domian',
+      'm': '$message'
+    });
+
+  }
+
 }

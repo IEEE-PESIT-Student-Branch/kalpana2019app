@@ -1,4 +1,4 @@
 class Event {
-  String Title;
-  Event(this.Title);
+  String title;
+  Event(this.title);
 }

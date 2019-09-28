@@ -14,11 +14,12 @@ class _LoginPageState extends State<LoginPage> {
   final _teamID = TextEditingController();
   final DBref = FirebaseDatabase.instance.reference().child("/teams");
 
+// void initState(){
+//   FirebaseDatabase.instance.reference().keepSynced(false);
+//   FirebaseDatabase.instance.setPersistenceEnabled(false);
+//  }
+
   void login() {
-    //Check if Team-ID is valid
-    // DBref.child("1").set({
-    //   'id':'This is sample data'
-    // });
     Database.appLogin(context, _teamID.text);
   }
 

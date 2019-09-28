@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kalpana2k19participant/page/Doubt.dart';
 
 import 'package:kalpana2k19participant/page/Help.dart';
 import 'package:kalpana2k19participant/page/Schedule.dart';
@@ -13,7 +14,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
   int _selectedPage = 1;
   final _pageoptions = [
     HelpPage(),
-    TimerPage(),
+    DoubtPage(),
     SchedulePage(),
   ];
 

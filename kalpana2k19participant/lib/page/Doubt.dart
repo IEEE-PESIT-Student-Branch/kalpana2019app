@@ -1,23 +1,28 @@
-import 'dart:ffi';
-
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/firebase_database.dart' as prefix0;
 import 'package:flutter/material.dart';
 
 import 'package:kalpana2k19participant/database.dart';
-
+import 'package:kalpana2k19participant/model/Doubt.dart';
 class DoubtPage extends StatefulWidget {
   @override
   _DoubtPageState createState() => _DoubtPageState();
 }
 
 class _DoubtPageState extends State<DoubtPage> {
-  // @override
-  // void initState(){
-  //   FirebaseDatabase db =new FirebaseDatabase();
-  //   db.setPersistenceEnabled(false);
-  //   db.reference().keepSynced(false);
-  // }
+  Database database;
+  
+  @override
+  void initState(){
+    super.initState();
+    database = new Database();
+    database.initState();
+  }
+  
+  @override
+  void dispose(){
+    super.dispose();
+    database.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +41,7 @@ class _DoubtPageState extends State<DoubtPage> {
   }
 
   void _handelPressed(String domain) {
-    _ackAlert(context, domain);
+    _ackAlert(context, domain, database);
   }
 }
 
@@ -57,9 +62,10 @@ Future<void> load(BuildContext context) {
       });
 }
 
-Future<void> _ackAlert(BuildContext context, String domain) async {
+Future<void> _ackAlert(BuildContext context, String domain,Database database) async {
   final _message = TextEditingController();
   String _domain = domain;
+  
   return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -117,7 +123,7 @@ Future<void> _ackAlert(BuildContext context, String domain) async {
                   ),
                   onTap: () async {
                     load(context);
-                    await Database.postdoubt(context, _domain, _message.text);
+                    await database.postdoubt(context,new Doubt(_domain, _message.text, 0, database.teamid));
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },

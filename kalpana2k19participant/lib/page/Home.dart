@@ -13,7 +13,7 @@ class HomeNavPage extends StatefulWidget {
 class _HomeNavPageState extends State<HomeNavPage> {
   int _selectedPage = 1;
   final _pageoptions = [
-    HelpPage(),
+    TimerPage(),
     DoubtPage(),
     SchedulePage(),
   ];

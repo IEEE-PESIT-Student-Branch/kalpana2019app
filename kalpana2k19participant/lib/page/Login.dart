@@ -13,14 +13,23 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _teamID = TextEditingController();
   final DBref = FirebaseDatabase.instance.reference().child("/teams");
-
-// void initState(){
-//   FirebaseDatabase.instance.reference().keepSynced(false);
-//   FirebaseDatabase.instance.setPersistenceEnabled(false);
-//  }
+  Database database;
+  @override
+  void initState(){
+    super.initState();
+    database = new Database();
+    database.initState();
+  }
+  
+  @override
+  void dispose(){
+    super.dispose();
+    database.dispose();
+  }
 
   void login() {
-    Database.appLogin(context, _teamID.text);
+    database.teamid = _teamID.text;
+    database.appLogin(context, _teamID.text);
   }
 
   @override

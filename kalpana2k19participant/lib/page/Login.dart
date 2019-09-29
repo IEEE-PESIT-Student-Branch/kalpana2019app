@@ -15,21 +15,21 @@ class _LoginPageState extends State<LoginPage> {
   final DBref = FirebaseDatabase.instance.reference().child("/teams");
   Database database;
   @override
-  void initState(){
+  void initState() {
     super.initState();
     database = new Database();
     database.initState();
   }
-  
+
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     database.dispose();
   }
 
   void login() {
-    database.teamid = _teamID.text;
-    database.appLogin(context, _teamID.text);
+    // database.teamid = _teamID.text;
+    // database.appLogin(context, _teamID.text);
   }
 
   @override
@@ -77,10 +77,14 @@ class _LoginPageState extends State<LoginPage> {
             RaisedButton(
               elevation: 8,
               // color: Color(0xFF540187),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
               color: Colors.yellow[300],
               textColor: Colors.black,
               // textColor: Colors.white,
-              child: Icon(Icons.arrow_forward),
+              child: Text("LOGIN"),
               onPressed: login,
             )
           ],

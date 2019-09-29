@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:kalpana2k19participant/model/Event.dart';
+import 'package:kalpana2k19participant/model/NoGlowScroll.dart';
 import 'package:kalpana2k19participant/widget/ScheduleTile.dart';
 
 class SchedulePage extends StatelessWidget {
@@ -49,12 +50,15 @@ class SchedulePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 3),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext ctx, int index) {
-                      return ScheduleTile(event[index]);
-                    },
-                    itemCount: event.length,
+                ScrollConfiguration(
+                  behavior: NoGlowScroll(),
+                  child: Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (BuildContext ctx, int index) {
+                        return ScheduleTile(event[index]);
+                      },
+                      itemCount: event.length,
+                    ),
                   ),
                 )
               ]),

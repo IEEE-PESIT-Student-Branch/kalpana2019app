@@ -17,11 +17,25 @@ class _HomeNavPageState extends State<HomeNavPage> {
     DoubtPage(),
     SchedulePage(),
   ];
+  PageController _controller = PageController(
+    initialPage: 1,
+    keepPage: false,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pageoptions[_selectedPage],
+      // body: _pageoptions[_selectedPage],
+      body: PageView(
+        controller: _controller,
+        scrollDirection: Axis.horizontal,
+        onPageChanged: (i) {
+          setState(() {
+            _selectedPage = i;
+          });
+        },
+        children: _pageoptions,
+      ),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(canvasColor: Color(0xFF4138B2)),
         child: BottomNavigationBar(
@@ -30,6 +44,8 @@ class _HomeNavPageState extends State<HomeNavPage> {
           currentIndex: _selectedPage,
           onTap: (int index) {
             setState(() {
+              _controller.animateToPage(index,
+                  duration: Duration(milliseconds: 200), curve: Curves.ease);
               _selectedPage = index;
             });
           },

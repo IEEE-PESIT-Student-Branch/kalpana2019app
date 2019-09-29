@@ -6,13 +6,14 @@ class TimerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: Colors.purple,
         width: double.infinity,
         height: double.infinity,
-        child: WebviewScaffold(
-          withJavascript: true,
-          url: 'http://192.168.1.2:8080/',
-          displayZoomControls: true,
-        ),
+        // child: WebviewScaffold(
+        //   withJavascript: true,
+        //   url: 'http://192.168.1.2:8080/',
+        //   displayZoomControls: true,
+        // ),
       ),
     );
   }

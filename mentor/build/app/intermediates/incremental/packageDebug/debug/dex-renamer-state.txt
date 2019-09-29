@@ -1,0 +1,4 @@
+#Sun Sep 29 21:46:01 IST 2019
+base.0=/home/amit/Documents/Github/kalpana2019app/mentor/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

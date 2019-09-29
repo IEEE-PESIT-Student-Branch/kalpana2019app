@@ -1,111 +1,191 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_example/model/popup.dart';
+// import 'package:firebase_core/firebase_core.dart'; not nessecary
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      title: 'Mentor',
+      theme: ThemeData.dark(),
+      home: Home(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class Home extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  HomeState createState() => HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class HomeState extends State<Home> {
+  static List<Item> items = List();
+  Item item;
+  DatabaseReference itemRef;
 
-  void _incrementCounter() {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    item = Item("", "");
+    final FirebaseDatabase database = FirebaseDatabase
+        .instance;
+    itemRef = database.reference().child('items');
+    itemRef.onChildAdded.listen(_onEntryAdded);
+    itemRef.onChildChanged.listen(_onEntryChanged);
+  }
+  _onEntryAdded(Event event) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      items.add(Item.fromSnapshot(event.snapshot));
     });
+  }
+
+  _onEntryChanged(Event event) {
+    var old = items.singleWhere((entry) {
+      return entry.key == event.snapshot.key;
+    });
+    setState(() {
+      items[items.indexOf(old)] = Item.fromSnapshot(event.snapshot);
+    });
+  }
+
+  void handleSubmit() {
+    final FormState form = formKey.currentState;
+
+    if (form.validate()) {
+      form.save();
+      form.reset();
+      itemRef.push().set(item.toJson());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('Mentor'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      resizeToAvoidBottomPadding: false,
+      body: Column(
+        children: <Widget>[
+          Flexible(
+            flex: 0,
+            child: Center(
+              child: Form(
+                key: formKey,
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.info),
+                      title: TextFormField(
+                        initialValue: "",
+                        onSaved: (val) => item.title = val,
+                        validator: (val) => val == "" ? val : null,
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.info),
+                      title: TextFormField(
+                        initialValue: '',
+                        onSaved: (val) => item.body = val,
+                        validator: (val) => val == "" ? val : null,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.send),
+                      onPressed: () {
+                        handleSubmit();
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+          ),
+          Flexible(
+            child: FirebaseAnimatedList(
+              query: itemRef,
+              itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                  Animation<double> animation, int index) {
+                return card(item, index, context);
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  static final card = (Item item, int index, BuildContext context) => new Center(
+      child: Card(
+          child: InkWell(
+              splashColor: Colors.blue.withAlpha(30),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => CustomDialog(
+                    title: "Doubt",
+                    description: items[index].body,
+                    buttonText: "Okay",
+                  ),
+                );
+              },
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: ListTile(
+                        // leading: Icon(
+                        //   Icons.person,
+                        //   color: Colors.white,
+                        //   size: 100.0,
+                        // ),
+                        title: Text(items[index].title, style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold,),
+                        // subtitle: Text(items[index].body),
+                      ),
+                    ),
+                    ),
+                    ButtonTheme.bar(
+                        // make buttons use the appropriate styles for cards
+                        child: ButtonBar(
+                      children: <Widget>[
+                        FlatButton(
+                          child: const Text('Unsolved'),
+                          onPressed: () {/* ... */},
+                        ),
+                        FlatButton(
+                          child: const Text('Solved'),
+                          onPressed: () {/* ... */},
+                        ),
+                      ],
+                    ))
+                  ]))));
+}
+
+class Item {
+  String key;
+  String title;
+  String body;
+
+  Item(this.title, this.body);
+
+  Item.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        title = snapshot.value["title"],
+        body = snapshot.value["body"];
+
+  toJson() {
+    return {
+      "title": title,
+      "body": body,
+    };
   }
 }

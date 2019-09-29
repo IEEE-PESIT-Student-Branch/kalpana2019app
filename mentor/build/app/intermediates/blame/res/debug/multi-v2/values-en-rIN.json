@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/amit/Documents/Github/kalpana2019app/mentor/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
+            "map": [
+                {
+                    "source": "/home/amit/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/50675f6713202cab4c9c6f65098e9913/res/values-en-rIN/values-en-rIN.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/home/amit/Downloads/junk/flutter_firebase-master/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
+            "map": [
+                {
+                    "source": "/home/amit/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/50675f6713202cab4c9c6f65098e9913/res/values-en-rIN/values-en-rIN.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}

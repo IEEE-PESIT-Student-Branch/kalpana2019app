@@ -11,7 +11,7 @@ class ScheduleTile extends StatelessWidget {
     color: Colors.white,
   );
   TextStyle sub = TextStyle(
-    fontSize: 14,
+    fontSize: 16,
     color: Color.fromRGBO(255, 255, 255, 0.67),
   );
   //Card Color
@@ -22,13 +22,11 @@ class ScheduleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
-      margin: EdgeInsets.fromLTRB(10, 3, 10, 3),
-      child: Card(
-        elevation: 6,
-        color: color,
-        child: Container(
-          alignment: AlignmentDirectional(-0.8, 0.0),
+      color: color,
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      margin: EdgeInsets.fromLTRB(15, 5, 15, 5),
+      child: ListTile(
+        title: Container(
           child: Text(
             event.title,
             style: sub,

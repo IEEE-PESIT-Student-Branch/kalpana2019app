@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
+
 
 import 'package:kalpana2k19participant/model/Doubt.dart';
 import 'package:kalpana2k19participant/page/Home.dart';
@@ -29,7 +27,7 @@ class Database{
     _helpRef = db.reference().child('/help');
     //Reference to the team object
     _teamRef = db.reference().child('/team');
-    db.setPersistenceEnabled(true);
+    db.setPersistenceEnabled(false);
     db.setPersistenceCacheSizeBytes(10000000);
     //Disabling sync to avoid unwanted data usage
     _helpRef.keepSynced(false);
@@ -47,18 +45,18 @@ class Database{
     }
   }
 
-  void set teamid(String id){
+  set teamid(String id){
     _teamid = id;
   }
   DatabaseError getError(){
     return error;
   }
 
-  DatabaseReference getteam(){
+  DatabaseReference getteamRef(){
     return _teamRef;
   }
   
-  DatabaseReference gethelp(){
+  DatabaseReference gethelpRef(){
     return _helpRef;
   }
 
@@ -78,9 +76,11 @@ class Database{
       });
       });
   }
-
-  void postdoubt(BuildContext context,Doubt doubt) async{
+  
+  postdoubt(BuildContext context,Doubt doubt) async{
+    print("^^^^^^^in post doubt");
     await _helpRef.push().set(doubt.toJson());
+    print("^^^^^^^^done with post doubt");
   }
 
   void deletepost(Doubt doubt) async{

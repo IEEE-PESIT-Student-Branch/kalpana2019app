@@ -2,14 +2,12 @@ import 'package:firebase_database/firebase_database.dart';
 class Doubt {
   String key;
   String _teamid;
-  int _flagLevel=0;
-  String _domain;
+  int _flagLevel;
   String _message;
   
-  Doubt(this._domain,this._message, this._flagLevel, this._teamid);
+  Doubt(this._message, this._flagLevel, this._teamid);
 
   String get i => _teamid;
-  String get d => _domain;
   String get m => _message;
   int get f => _flagLevel;
 
@@ -17,7 +15,6 @@ class Doubt {
   {
     key       = snap.key;
     _teamid    = snap.value['i'];
-    _domain    = snap.value['d'];
     _message   = snap.value['m'];
     _flagLevel = snap.value['f'];
   }
@@ -25,7 +22,6 @@ class Doubt {
   toJson(){
     return{
       'i': _teamid,
-      'd': _domain,
       'm': _message,
       'f': _flagLevel,
     };

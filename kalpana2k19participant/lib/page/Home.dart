@@ -25,6 +25,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(canvasColor: Color(0xFF4138B2)),
         child: BottomNavigationBar(
+          unselectedItemColor: Colors.grey,
           selectedItemColor: Colors.white,
           currentIndex: _selectedPage,
           onTap: (int index) {
@@ -34,12 +35,12 @@ class _HomeNavPageState extends State<HomeNavPage> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.help),
-              title: Text('Help'),
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.timer),
               title: Text('Timer'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.help),
+              title: Text('Help'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu),

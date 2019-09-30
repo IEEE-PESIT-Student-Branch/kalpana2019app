@@ -27,7 +27,7 @@ class Database{
     _helpRef = db.reference().child('/help');
     //Reference to the team object
     _teamRef = db.reference().child('/team');
-    db.setPersistenceEnabled(false);
+    db.setPersistenceEnabled(true);
     db.setPersistenceCacheSizeBytes(10000000);
     //Disabling sync to avoid unwanted data usage
     _helpRef.keepSynced(false);
@@ -41,7 +41,7 @@ class Database{
     return _teamid;
     else{
       print('Bad function call : getitemid');
-      return 'Bad function call';
+      return '7000';
     }
   }
 

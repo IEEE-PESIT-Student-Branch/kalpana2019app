@@ -28,8 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login() {
-    // database.teamid = _teamID.text;
-    // database.appLogin(context, _teamID.text);
+     database.teamid = _teamID.text;
+     database.appLogin(context, _teamID.text);
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kalpana2k19participant/database.dart';
@@ -16,6 +15,7 @@ class _DoubtPageState extends State<DoubtPage> {
   final _message = TextEditingController();
   List<Doubt> doubtlist = [];
   DatabaseReference helpRef;
+  final GlobalKey<AnimatedListState> _listkey = GlobalKey();
 
   @override
   void initState() {
@@ -30,22 +30,31 @@ class _DoubtPageState extends State<DoubtPage> {
   }
 
   _onDataRemoved(Event event) {
-    var old = doubtlist.singleWhere((entry) {
-      return entry.key == event.snapshot.key &&
-          event.snapshot.value['i'] == database.teamid;
+    var old =doubtlist.singleWhere((entry){
+      return entry.key == event.snapshot.key; // event.snapshot.value['i'] == database.teamid;
     });
-    setState(() {
-      doubtlist.removeWhere((entry) {
-        return entry.key == event.snapshot.key;
-      });
-    });
+    int index = doubtlist.indexOf(old);
+    // setState(() {
+    //   doubtlist.removeWhere((entry) {
+    //     return entry.key == event.snapshot.key;
+    Doubt removedItem=doubtlist.removeAt(index);
+    AnimatedListRemovedItemBuilder builder = (context, animation) {
+      return _buildItem(context,removedItem, animation);
+};
+    _listkey.currentState.removeItem(index, builder);
+    //   });
+    // });
   }
 
   _onDataAdded(Event event) {
     if (event.snapshot.value['i'] == database.teamid) {
-      setState(() {
-        doubtlist.add(Doubt.formSnapshot(event.snapshot));
-      });
+      Doubt item = Doubt.formSnapshot(event.snapshot);
+      print(item.m);
+      doubtlist.insert(0, item);
+      _listkey.currentState..insertItem(0);
+      // setState(() {
+      //   doubtlist.add(Doubt.formSnapshot(event.snapshot));
+      // });
     }
   }
 
@@ -54,7 +63,7 @@ class _DoubtPageState extends State<DoubtPage> {
       return entry.key == event.snapshot.key &&
           event.snapshot.value['i'] == database.teamid;
     });
-    setState(() {
+    _listkey.currentState.setState(() {
       doubtlist[doubtlist.indexOf(old)] = Doubt.formSnapshot(event.snapshot);
     });
   }
@@ -102,7 +111,7 @@ class _DoubtPageState extends State<DoubtPage> {
               child: TextField(
                 controller: _message,
                 decoration: InputDecoration(
-                  hintText: "....",
+                  hintText: "Need help...",
                   border: InputBorder.none,
                 ),
                 maxLines: 8,
@@ -144,17 +153,17 @@ class _DoubtPageState extends State<DoubtPage> {
         backgroundColor: Colors.white,
         context: ctx,
         builder: (BuildContext buildContext) {
-          // return ListView.builder(
-          //   itemBuilder: (BuildContext ctx, int index) {
-              return FirebaseAnimatedList(
-                query: helpRef,
-                itemBuilder: (BuildContext ctx, DataSnapshot snapshot,
-                Animation<double> animation, int index) {
-              return Doubtcard(doubtlist[index]);
-            },
-            itemCount: doubtlist.length,
+          return AnimatedList(
+            key: _listkey,
+            initialItemCount: doubtlist.length,
+            itemBuilder: (context, index, animation) => _buildItem(context,doubtlist[index], animation),
           );
-        });
+        }
+    );
+  }
+        
+  Widget _buildItem(BuildContext context, Doubt item, Animation<double> animation) {
+    return Doubtcard(item);
   }
 }
 

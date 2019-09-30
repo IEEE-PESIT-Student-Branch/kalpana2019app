@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/amit/Documents/Github/kalpana2019app/mentor/android/app/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/home/amit/Documents/Github/kalpana2019app/mentor/android/app/src/debug/jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\Workspace\Flutter\Kalpana2k19App\kalpana2019app\mentor\android\app\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="D:\Workspace\Flutter\Kalpana2k19App\kalpana2019app\mentor\android\app\src\debug\jniLibs"/></dataSet></merger>

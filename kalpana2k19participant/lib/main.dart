@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:kalpana2k19participant/page/Login.dart';
-import 'package:kalpana2k19participant/page/Home.dart';
+import 'package:kalpana2k19participant/mentor/page/Home.dart';
 
 void main() => runApp(Kalpana2k19());
 
@@ -14,7 +14,7 @@ class Kalpana2k19 extends StatelessWidget {
       initialRoute:'/home',
       routes: {
         '/'     : (BuildContext context) => LoginPage(),
-        '/home' : (BuildContext context) => HomeNavPage(),
+        '/home' : (BuildContext context) => HomePage(),
         
       },
     );

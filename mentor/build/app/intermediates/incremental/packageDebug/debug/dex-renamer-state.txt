@@ -1,4 +1,4 @@
-#Mon Sep 30 00:43:11 IST 2019
-base.0=/home/amit/Documents/Github/kalpana2019app/mentor/build/app/intermediates/transforms/dexMerger/debug/0
+#Mon Sep 30 21:05:25 IST 2019
+base.0=D\:\\Workspace\\Flutter\\Kalpana2k19App\\kalpana2019app\\mentor\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

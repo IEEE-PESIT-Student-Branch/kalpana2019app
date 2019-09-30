@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalpana2k19participant/page/Doubt.dart';
 
-import 'package:kalpana2k19participant/page/Help.dart';
 import 'package:kalpana2k19participant/page/Schedule.dart';
 import 'package:kalpana2k19participant/page/Counter.dart';
 

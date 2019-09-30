@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kalpana2k19participant/database.dart';
@@ -13,7 +14,7 @@ class DoubtPage extends StatefulWidget {
 class _DoubtPageState extends State<DoubtPage> {
   Database database;
   final _message = TextEditingController();
-  List<Doubt> doubtlist = [Doubt('_message', 0, '_teamid')];
+  List<Doubt> doubtlist = [];
   DatabaseReference helpRef;
 
   @override
@@ -22,6 +23,40 @@ class _DoubtPageState extends State<DoubtPage> {
     database = new Database();
     database.initState();
     helpRef = database.gethelpRef();
+    helpRef.onChildAdded.listen(_onDataAdded);
+    helpRef.onChildChanged.listen(_onDataChanged);
+    helpRef.onChildRemoved.listen(_onDataRemoved);
+    database.teamid = '1000';
+  }
+
+  _onDataRemoved(Event event) {
+    var old = doubtlist.singleWhere((entry) {
+      return entry.key == event.snapshot.key &&
+          event.snapshot.value['i'] == database.teamid;
+    });
+    setState(() {
+      doubtlist.removeWhere((entry) {
+        return entry.key == event.snapshot.key;
+      });
+    });
+  }
+
+  _onDataAdded(Event event) {
+    if (event.snapshot.value['i'] == database.teamid) {
+      setState(() {
+        doubtlist.add(Doubt.formSnapshot(event.snapshot));
+      });
+    }
+  }
+
+  _onDataChanged(Event event) {
+    var old = doubtlist.singleWhere((entry) {
+      return entry.key == event.snapshot.key &&
+          event.snapshot.value['i'] == database.teamid;
+    });
+    setState(() {
+      doubtlist[doubtlist.indexOf(old)] = Doubt.formSnapshot(event.snapshot);
+    });
   }
 
   @override
@@ -86,8 +121,10 @@ class _DoubtPageState extends State<DoubtPage> {
               ),
               onPressed: () async {
                 load(context);
-                await database.postdoubt(context, new Doubt(_message.text, 0, database.teamid));
-                  Navigator.of(context).pop();
+                await database.postdoubt(
+                    context, new Doubt(_message.text, 0, database.teamid));
+                _message.text = '';
+                Navigator.of(context).pop();
               },
             )
           ],
@@ -107,8 +144,12 @@ class _DoubtPageState extends State<DoubtPage> {
         backgroundColor: Colors.white,
         context: ctx,
         builder: (BuildContext buildContext) {
-          return ListView.builder(
-            itemBuilder: (BuildContext ctx, int index) {
+          // return ListView.builder(
+          //   itemBuilder: (BuildContext ctx, int index) {
+              return FirebaseAnimatedList(
+                query: helpRef,
+                itemBuilder: (BuildContext ctx, DataSnapshot snapshot,
+                Animation<double> animation, int index) {
               return Doubtcard(doubtlist[index]);
             },
             itemCount: doubtlist.length,

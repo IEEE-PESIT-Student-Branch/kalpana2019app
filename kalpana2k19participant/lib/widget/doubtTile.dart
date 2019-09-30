@@ -9,11 +9,23 @@ class Doubtcard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
+      color: _checkstate(),
       margin: EdgeInsets.fromLTRB(10, 3, 10, 3),
-      // child: ListTile(
-      //   title: doubt.d,
-      //   subtitle: doubt.m,)
-      //),      
+      child: ListTile(
+        subtitle: Text(doubt.m),
+      )      
     );
   }
+  Color _checkstate(){
+    switch(doubt.f)
+    {
+      case 0:
+      return Colors.blue;
+      break;
+      case 1:
+      return Colors.green;
+      break;
+      default:
+      return Colors.red;
+    }  }
 }

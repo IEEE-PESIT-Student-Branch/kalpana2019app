@@ -26,7 +26,7 @@ class _DoubtPageState extends State<DoubtPage> {
     helpRef.onChildAdded.listen(_onDataAdded);
     helpRef.onChildChanged.listen(_onDataChanged);
     helpRef.onChildRemoved.listen(_onDataRemoved);
-    database.teamid = '1000';
+    database.teamid = '2000';
   }
 
   _onDataRemoved(Event event) {
@@ -51,7 +51,7 @@ class _DoubtPageState extends State<DoubtPage> {
       Doubt item = Doubt.formSnapshot(event.snapshot);
       print(item.m);
       doubtlist.insert(0, item);
-      _listkey.currentState..insertItem(0);
+      _listkey.currentState.insertItem(0);
       // setState(() {
       //   doubtlist.add(Doubt.formSnapshot(event.snapshot));
       // });

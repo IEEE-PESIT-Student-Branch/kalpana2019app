@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_example/model/popup.dart';
+import 'package:firebase_example/model/Doubt.dart';
 // import 'package:firebase_core/firebase_core.dart'; not nessecary
 
 void main() => runApp(MyApp());
@@ -24,17 +25,17 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  static List<Item> items = List();
-  Item item;
+  static List<Doubt> items = List();
+  Doubt item;
   DatabaseReference itemRef;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    item = Item("", "", 0);
+    item = Doubt("", "", 0);
     final FirebaseDatabase database = FirebaseDatabase.instance;
-    itemRef = database.reference().child('items');
+    itemRef = database.reference().child('/help');
     itemRef.onChildAdded.listen(_onEntryAdded);
     itemRef.onChildChanged.listen(_onEntryChanged);
     // itemRef.onChildRemoved.listen(_onDelete);
@@ -42,11 +43,11 @@ class HomeState extends State<Home> {
 
   _onEntryAdded(Event event) {
     setState(() {
-      items.add(Item.fromSnapshot(event.snapshot));
+      items.add(Doubt.formSnapshot(event.snapshot));
     });
   }
 
-  static _onDelete(Item item, int index, DatabaseReference itemRef) {
+  static _onDelete(Doubt item, int index, DatabaseReference itemRef) {
     itemRef.child(item.key).remove().then((_) {
       print("Delete successful");
       items.removeAt(index);
@@ -59,7 +60,7 @@ class HomeState extends State<Home> {
       return entry.key == event.snapshot.key;
     });
     setState(() {
-      items[items.indexOf(old)] = Item.fromSnapshot(event.snapshot);
+      items[items.indexOf(old)] = Doubt.formSnapshot(event.snapshot);
     });
   }
 
@@ -72,12 +73,12 @@ class HomeState extends State<Home> {
     }
   }
 
-  static void handleUpdate(Item item, String what, DatabaseReference itemRef) {
+  static void handleUpdate(Doubt item, String what, DatabaseReference itemRef) {
     if (item != null) {
       if (what == "solved") {
         itemRef.child(item.key).remove();
       } else {
-        item.flag = 1 + item.flag;
+        item.f = 1 + item.f;
         itemRef.child(item.key).set(item.toJson());
       }
     }
@@ -101,19 +102,19 @@ class HomeState extends State<Home> {
                 child: Flex(
                   direction: Axis.vertical,
                   children: <Widget>[
-                    ListTile(
-                      leading: Icon(Icons.info),
-                      title: TextFormField(
-                        initialValue: "",
-                        onSaved: (val) => item.title = val,
-                        validator: (val) => val == "" ? val : null,
-                      ),
-                    ),
+                    // ListTile(
+                    //   leading: Icon(Icons.info),
+                    //   title: TextFormField(
+                    //     initialValue: "",
+                    //     onSaved: (val) => item.title = val,
+                    //     validator: (val) => val == "" ? val : null,
+                    //   ),
+                    // ),
                     ListTile(
                       leading: Icon(Icons.info),
                       title: TextFormField(
                         initialValue: '',
-                        onSaved: (val) => item.body = val,
+                        onSaved: (val) => item.m = val,
                         validator: (val) => val == "" ? val : null,
                       ),
                     ),
@@ -142,7 +143,7 @@ class HomeState extends State<Home> {
     );
   }
 
-  static final card = (Item item, int index, BuildContext context,
+  static final card = (Doubt item, int index, BuildContext context,
           DatabaseReference itemRef) =>
       new Center(
           child: Card(
@@ -201,25 +202,25 @@ class HomeState extends State<Home> {
                       ]))));
 }
 
-class Item {
-  String key;
-  String title;
-  int flag = 0;
-  String body;
+// class Doubt {
+//   String key;
+//   String title;
+//   int flag = 0;
+//   String body;
 
-  Item(this.title, this.body, this.flag);
+//   Doubt(this.title, this.body, this.flag);
 
-  Item.fromSnapshot(DataSnapshot snapshot)
-      : key = snapshot.key,
-        title = snapshot.value["title"],
-        body = snapshot.value["body"],
-        flag = snapshot.value["flag"];
+//   Doubt.fromSnapshot(DataSnapshot snapshot)
+//       : key = snapshot.key,
+//         title = snapshot.value["title"],
+//         body = snapshot.value["body"],
+//         flag = snapshot.value["flag"];
 
-  toJson() {
-    return {
-      "title": title,
-      "flag": flag,
-      "body": body,
-    };
-  }
-}
+//   toJson() {
+//     return {
+//       "title": title,
+//       "flag": flag,
+//       "body": body,
+//     };
+//   }
+// }
